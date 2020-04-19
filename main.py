@@ -1,12 +1,6 @@
 # 1) vars: 3
-#     
-#----------------code--------------------   
-#    count = 3 
 
 # 2) input: 1, 4, 5
-# 
-#----------------code--------------------  
-#    ones = [1, 4, 5]
 
 # 3) table:
 # 
@@ -20,9 +14,6 @@
 #   1 | 0 | 1 | 1 -> 5
 #   1 | 1 | 0 | 0 -> 6
 #   1 | 1 | 1 | 0 -> 7
-#
-#----------------code--------------------  
-#    size = 2 ^ count = 8
 
 # 4) matrix:
 #
@@ -30,25 +21,6 @@
 #   \ _00___01___11___10_
 # C 0|_0__|_0__|_0__|_1__|
 #   1|_1__|_0__|_0__|_1__|
-#  
-#----------------code--------------------  
-#  cols = size / 2 = 4
-#  rows = size / cols = 2
-#  
-#  def get_value(number):
-#      for one in ones:
-#          if number == one:
-#              return 1
-#
-#      return 0
-#  
-#  def to_binary(number):
-#      arr = []
-#
-#  def fill():
-#      for number in range(0, size - 1):  
-#          val = get_value(number)
-#          col = number 
 
 # 5) output:
 #
@@ -89,27 +61,49 @@ def get_binary_value(number):
     bits = list()
     val = number
 
-    for i in range(0, var_count):
+    i = 0
+    while i < var_count:
+        i += 1
         bit = 0
+
         if val % 2 != 0:
             bit = 1
             bits.append(bit) 
+
+        if (val <= 1):
+            break
+
         val /= 2
+
+    missing_bits = var_count - len(bits)
+    while missing_bits > 0:
+        missing_bits -= 1
+        bits.append(0)
 
     return bits
 
+def get_result(number):
+    global ones
+
+    for one in ones:
+        if one == number:
+            return 1
+
+    return 0
 
 def print_truth_table():
     global ones
     global var_count
 
     print_table_header()
+    print_table_rows()
     
 def print_table_header():
+    global var_count
     global variables
 
-    header = '|'
-    for i in range(0, len(variables)):
+    header = '|n|'
+    for i in range(0, var_count):
         header += variables[i] + '|'
     header += 'r|'
 
@@ -120,6 +114,17 @@ def print_table_rows():
     global ones
 
     size = pow(2, var_count)
+
+    for i in range(0, size):
+        row = '|' + str(i) + '|'
+        result = get_result(i)
+        bits = get_binary_value(i)
+
+        for bit in bits:
+            row += str(bit) + '|'
+    
+        row += str(result) + '|'
+        print(row)
 
 
 setup()
