@@ -70,12 +70,13 @@ def get_binary_value(number):
         i += 1
         bit = 0
 
+        val = int(val)
         if val % 2 != 0:
             bit = 1
         
         bits.append(bit) 
 
-        if (val <= 1):
+        if (val < 1):
             break
 
         val /= 2
@@ -132,8 +133,3 @@ def print_table_rows():
 
 setup()
 print_truth_table()
-
-# var_count = 3
-# bits = get_binary_value(2)
-# for i in bits:
-#     print(i)
