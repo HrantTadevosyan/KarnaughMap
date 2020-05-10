@@ -50,9 +50,13 @@ def setup_ones(count):
     global ones
 
     one = -1
-    while len(ones) < count:
-        print('fill up the ones: ' )
-        one = int(input())
+    while True:
+        print('fill up the ones(press [q] to QUIT): ')
+        inp = input() 
+        if (inp == 'q'):
+            break
+
+        one = int(inp)
         ones.append(one)
 
 def get_binary_value(number):
@@ -68,7 +72,8 @@ def get_binary_value(number):
 
         if val % 2 != 0:
             bit = 1
-            bits.append(bit) 
+        
+        bits.append(bit) 
 
         if (val <= 1):
             break
@@ -80,6 +85,7 @@ def get_binary_value(number):
         missing_bits -= 1
         bits.append(0)
 
+    bits.reverse()
     return bits
 
 def get_result(number):
@@ -92,9 +98,6 @@ def get_result(number):
     return 0
 
 def print_truth_table():
-    global ones
-    global var_count
-
     print_table_header()
     print_table_rows()
     
@@ -129,3 +132,8 @@ def print_table_rows():
 
 setup()
 print_truth_table()
+
+# var_count = 3
+# bits = get_binary_value(2)
+# for i in bits:
+#     print(i)
