@@ -28,6 +28,7 @@
 #
 var_count = -1
 ones = list()
+matrix = list()
 variables = ['A', 'B', 'C', 'D', 'E', 'F']
 
 def setup():
@@ -98,6 +99,76 @@ def get_result(number):
 
     return 0
 
+def solve():
+    global ones
+    global var_count
+
+    cl = []
+    fl = []
+    
+    s = len(ones)
+    for i in range(0, s - 1):
+        for j in range(i + 1, s):
+            n1 = ones[i]
+            n2 = ones[j]
+
+            bits1 = get_binary_value(n1)
+            bits2 = get_binary_value(n2)
+
+            collision = 0
+            for k in range(0, var_count):
+                if bits1[k] != bits2[k]:
+                    collision += 1
+
+            if (collision <= 1):
+                if (n1 not in cl) and (n2 not in cl):
+                    cl.append(n1)                    
+                    cl.append(n2)
+
+                    bits = get_bits_diff(bits1, bits2)
+                    fl.append(bits)
+
+    xorl = [item for item in ones if item not in cl]
+
+    for xor in xorl:
+        bits = get_binary_value(xor) 
+        fl.append(bits)
+
+    return fl
+
+def get_bits_diff(bits1, bits2):
+    global var_count
+
+    bits = list()
+
+    for i in range(0, var_count):
+        if bits1[i] != bits2[i]:
+            bits.append(-1)
+        else:
+            bits.append(bits1[i])
+
+    return bits
+
+def make_function(sl):
+    global variables
+
+    output = 'F = '
+
+    for s in sl:
+        for i in range(0, len(s)):
+            if (s[i] == 1):
+                output += variables[i] 
+            elif (s[i] == 0):
+                output += variables[i] + '\''
+        
+        output += '+'
+
+    output = output[:-1]
+    return output
+
+def print_all():
+    print_truth_table()
+
 def print_truth_table():
     print_table_header()
     print_table_rows()
@@ -130,6 +201,10 @@ def print_table_rows():
         row += str(result) + '|'
         print(row)
 
-
 setup()
-print_truth_table()
+print_all()
+
+sl = solve()
+print(sl)
+o = make_function(sl)
+print(o)
